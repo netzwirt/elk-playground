@@ -29,12 +29,13 @@ Vagrant.configure(2) do |config|
   # Example for VirtualBox:
   #
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--name", "elk-stack", "--memory", "3072", "--cpus", "4"]
+    vb.customize ["modifyvm", :id, "--name", "elk-playground", "--memory", "3072", "--cpus", "4"]
     # To see boot-proccess uncomment next line
     # vb.gui = true
   end
   
   config.vm.post_up_message = "Your ELK-playground is ready
+
     	Webserver:       http://#$IPADDRESS
     	Kibana:          http://#$IPADDRESS:5601
     	Elasticsearch:   http://#$IPADDRESS:9200
@@ -93,18 +94,16 @@ Vagrant.configure(2) do |config|
     bash /vagrant/bin/redis-data.sh 1>/dev/null
      
     # install kibana
-    if [ ! -d /usr/share/kibana ] ; then
-		cd
-		wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.1-linux-x64.tar.gz -O kibana-4.0.1-linux-x64.tar.gz -q
-	    tar xfvz kibana-4.0.1-linux-x64.tar.gz > /dev/null
-	    sudo mkdir -p /usr/share/kibana
-	    sudo mv kibana-4.0.1-linux-x64 /usr/share/kibana
-	    # run as a service
-	    sudo cp /vagrant/init.d/kibana /etc/init.d/kibana
-	    sudo chmod 0755 /etc/init.d/kibana
-	    sudo update-rc.d kibana defaults 96 20
-	    sudo service kibana start    
-  	fi
+	cd
+	wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.1-linux-x64.tar.gz -O kibana-4.0.1-linux-x64.tar.gz -q
+    tar xfvz kibana-4.0.1-linux-x64.tar.gz > /dev/null
+    sudo mv kibana-4.0.1-linux-x64 /usr/share/kibana
+    # run as a service
+    sudo cp /vagrant/init.d/kibana /etc/init.d/kibana
+    sudo chmod 0755 /etc/init.d/kibana
+    sudo update-rc.d kibana defaults 96 20
+    sudo service kibana start    
+
   	
   SHELL
 end
